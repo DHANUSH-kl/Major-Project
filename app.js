@@ -49,12 +49,15 @@ passport.deserializeUser(User.deserializeUser());
 
 app.use((req,res,next) => {
     res.locals.success = req.flash("success");
-    next();
-})
-app.use((req,res,next) => {
     res.locals.errors = req.flash("errors");
+    res.locals.currUser = req.user;
     next();
 })
+
+// app.use((req,res,next) => {
+//     res.locals.errors = req.flash("errors");
+//     next();
+// })
 
 const listingsRouter = require("./routes/listing.js");
 const reviewsRouter = require("./routes/review.js");

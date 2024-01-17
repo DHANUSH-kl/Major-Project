@@ -53,7 +53,7 @@ router.post("/",isLoggedIn, validateListing, wrapAsync(async (req, res) => {
 router.get("/:id/edit",isLoggedIn, wrapAsync(async (req, res) => {
     let { id } = req.params;
     let listing = await Listing.findById(id);
-    if(!listings){
+    if(!listing){
         req.flash("errors","Listing  You  Are  Trying  To  Access  Does  Not  Exist")
         res.redirect("/listings")
     }
