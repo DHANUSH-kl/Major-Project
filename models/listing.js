@@ -9,9 +9,8 @@ const listingSchema = new Schema({
     },
     description:String,
     image: {
-        type: String,
-        default: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8dmlsbGF8ZW58MHx8MHx8fDA%3D",
-        set: (v) => (v === "" ? "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8dmlsbGF8ZW58MHx8MHx8fDA%3D" : v)
+        url : String,
+        filename : String,
     },
     price:String,
     location:String,
@@ -26,6 +25,17 @@ const listingSchema = new Schema({
         type : Schema.Types.ObjectId,
         ref : "User",
     },
+    geometry : {
+        type : {
+            type:String,
+            enum:['Point'],
+            required:true,
+        },
+        coordinates: {
+            type:[Number],
+            required:true,
+        }
+    }
 });
 
 const Listing=mongoose.model("Listing",listingSchema);

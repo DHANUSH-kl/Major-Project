@@ -64,9 +64,9 @@ const reviewsRouter = require("./routes/review.js");
 const userRouter = require("./routes/user.js");
 
 
-app.get("/", (req, res) => {
-    res.send("Welcome to the root page");
-})
+// app.get("/", (req, res) => {
+//     res.send("Welcome to the root page");
+// })
 
 
 app.use("/listings", listingsRouter);
