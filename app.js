@@ -27,13 +27,14 @@ app.engine("ejs", ejsMate)
 app.use(express.static(path.join(__dirname, "/public")));
 
 
-// main().catch(err => console.log(err));
-// async function main() {
-//     await mongoose.connect(dbUrl);
-// }
 
-mongoose.connect(dbUrl,
-     { useNewUrlParser: true, useUnifiedTopology: true });
+main().catch(err => console.log(err));
+async function main() {
+    await mongoose.connect(dbUrl);
+}
+
+// mongoose.connect(dbUrl,
+//      { useNewUrlParser: true, useUnifiedTopology: true });
 
 
 const store = MongoStore.create({
@@ -87,9 +88,9 @@ const reviewsRouter = require("./routes/review.js");
 const userRouter = require("./routes/user.js");
 
 
-// app.get("/", (req, res) => {
-//     res.send("Welcome to the root page");
-// })
+app.get("/", (req, res) => {
+    res.send("Welcome to the root page");
+})
 
 
 app.use("/listings", listingsRouter);
@@ -101,7 +102,7 @@ app.all("*", (req, res, next) => {
     next(new ExpressError(404, "page not found"));
 });
 
-app.use((err, req, res) => {
+app.use((err, req, res,next) => {
     let { statusCode = 500, message = "something went wrong" } = err;
     res.status(statusCode).render("listings/error.ejs", { message });
     // res.status(statusCode).send(message);
