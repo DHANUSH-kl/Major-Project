@@ -14,9 +14,7 @@ const LocalStrategy = require("passport-local");
 const User = require("./models/user.js");
 const dotenv = require('dotenv');
 
-dotenv.config({
-    dbUrl:process.env.ATLASDB_URL
-})
+dotenv.config()
 
 const dbUrl = process.env.ATLASDB_URL;
 
@@ -29,11 +27,13 @@ app.engine("ejs", ejsMate)
 app.use(express.static(path.join(__dirname, "/public")));
 
 
-main().catch(err => console.log(err));
-async function main() {
-    await mongoose.connect(dbUrl);
-}
+// main().catch(err => console.log(err));
+// async function main() {
+//     await mongoose.connect(dbUrl);
+// }
 
+mongoose.connect(dbUrl,
+     { useNewUrlParser: true, useUnifiedTopology: true });
 
 
 const store = MongoStore.create({
@@ -55,10 +55,9 @@ const sessionOption = {
     },
     touchAfter: 24*3600,
 };
-store.on("error",()=>{
-    console.log("ERROR in mongo session store");
-})
-
+store.on("error", (err) => {
+    console.log("ERROR in mongo session store", err);
+});
 app.use(session(sessionOption));
 app.use(flash());
 
